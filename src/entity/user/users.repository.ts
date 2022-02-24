@@ -1,3 +1,4 @@
+import { ConfigService } from "@nestjs/config";
 import { AuthCredentialsDto } from "../../auth/dto/auth-credentials.dto";
 import { User } from ".";
 import { EntityRepository, Repository } from "typeorm";
