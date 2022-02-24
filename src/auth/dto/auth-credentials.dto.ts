@@ -21,22 +21,22 @@ export class AuthCredentialsDto {
   @MaxLength(50, {
     message: "Password is too long",
   })
-  @Matches(/[$-/:-?{-~!"^_`\[\]]/, {
-    message: "Please use only letters and numbers",
+  @Matches(/^[a-zA-Z0-9_.-]*$/, {
+    message: "Password should use only letters and numbers",
   })
   password: string;
 
   @IsNotEmpty()
   @IsString()
-  @Matches(/[$-/:-?{-~!"^_`\[\]]/, {
-    message: "Please use only letters and numbers",
+  @Matches(/^[a-zA-Z0-9_.-]*$/, {
+    message: "Firstname should use only letters and numbers",
   })
   firstName: string;
 
   @IsNotEmpty()
   @IsString()
-  @Matches(/[$-/:-?{-~!"^_`\[\]]/, {
-    message: "Please use only letters and numbers",
+  @Matches(/^[a-zA-Z0-9_.-]*$/, {
+    message: "Lastname should use only letters and numbers",
   })
   lastName: string;
 }
