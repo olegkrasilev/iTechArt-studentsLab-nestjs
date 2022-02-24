@@ -1,4 +1,8 @@
-import { Res } from "@nestjs/common";
+import {
+  ConflictException,
+  InternalServerErrorException,
+  Res,
+} from "@nestjs/common";
 import { AuthCredentialsDto } from "../../auth/dto/auth-credentials.dto";
 import { User } from ".";
 import { EntityRepository, Repository } from "typeorm";
@@ -25,26 +29,32 @@ export class UserRepository extends Repository<User> {
     const { firstName, lastName, email, password } = authCredentialsDto;
 
     const encryptedPassword = await bcrypt.hash(password, 12);
+    try {
+      const newUser = await User.create({
+        email,
+        firstName,
+        lastName,
+        encryptedPassword,
+      }).save();
 
-    const newUser = await User.create({
-      email,
-      firstName,
-      lastName,
-      encryptedPassword,
-    }).save();
-
-    const { refreshToken, accessToken } = createRefreshAccessToken(
-      newUser.id,
-      response
-    );
-    return {
-      status: "Success",
-      id: newUser.id,
-      firstName,
-      lastName,
-      email,
-      accessToken,
-      refreshToken,
-    };
+      const { refreshToken, accessToken } = createRefreshAccessToken(
+        newUser.id,
+        response
+      );
+      return {
+        status: "Success",
+        id: newUser.id,
+        firstName,
+        lastName,
+        email,
+        accessToken,
+        refreshToken,
+      };
+    } catch (error) {
+      if (error.code === "23505") {
+        throw new ConflictException("User already exists");
+      }
+      throw new InternalServerErrorException();
+    }
   }
 }
