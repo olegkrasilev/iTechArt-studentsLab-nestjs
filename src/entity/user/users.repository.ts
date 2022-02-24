@@ -71,7 +71,9 @@ export class UserRepository extends Repository<User> {
       if (!isUserExists) {
         throw new NotFoundException("This user does not exists");
       }
+
       const { lastName, firstName, encryptedPassword, id } = isUserExists;
+
       const isPasswordCorrect = await bcrypt.compare(
         password,
         encryptedPassword
@@ -93,6 +95,8 @@ export class UserRepository extends Repository<User> {
         accessToken,
         refreshToken,
       };
-    } catch (error) {}
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
   }
 }
