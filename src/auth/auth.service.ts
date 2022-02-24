@@ -1,6 +1,7 @@
 import { AuthCredentialsDto } from "./dto/auth-credentials.dto";
-import { Injectable } from "@nestjs/common";
+import { Injectable, Res } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Response } from "express";
 import { AuthCreateUser, UserRepository } from "../entity/user";
 
 @Injectable()
@@ -11,8 +12,9 @@ export class AuthService {
   ) {}
 
   async signUp(
-    authCredentialsDto: AuthCredentialsDto
+    authCredentialsDto: AuthCredentialsDto,
+    @Res({ passthrough: true }) response: Response
   ): Promise<AuthCreateUser> {
-    return this.usersRepository.createUser(authCredentialsDto);
+    return this.usersRepository.createUser(authCredentialsDto, response);
   }
 }

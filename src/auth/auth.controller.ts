@@ -1,6 +1,7 @@
 import { AuthService } from "./auth.service";
 import { AuthCredentialsDto } from "./dto/auth-credentials.dto";
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post, Res } from "@nestjs/common";
+import { Response } from "express";
 import { AuthCreateUser } from "../entity/user";
 
 @Controller("users")
@@ -8,8 +9,9 @@ export class AuthController {
   constructor(private authService: AuthService) {}
   @Post("/signup")
   signUp(
-    @Body() authCredentialsDto: AuthCredentialsDto
+    @Body() authCredentialsDto: AuthCredentialsDto,
+    @Res({ passthrough: true }) response: Response
   ): Promise<AuthCreateUser> {
-    return this.authService.signUp(authCredentialsDto);
+    return this.authService.signUp(authCredentialsDto, response);
   }
 }
