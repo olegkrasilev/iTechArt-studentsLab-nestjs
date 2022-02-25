@@ -1,32 +1,26 @@
 import { AuthService } from "./auth.service";
 import { AuthCredentialsDto } from "./dto/auth-credentials.dto";
-import { Body, Controller, Post, Res, UseGuards, Get } from "@nestjs/common";
+import { Body, Controller, Post, Req, Res, UseGuards } from "@nestjs/common";
 import { Response } from "express";
 import { Auth } from "../entity/user";
-import { AuthGuard } from "./auth.guard";
+import { AuthGuard } from "@nestjs/passport";
 
 @Controller("users")
 export class AuthController {
   constructor(private authService: AuthService) {}
   @Post("/signup")
-  signUp(
-    @Body() authCredentialsDto: AuthCredentialsDto,
-    @Res({ passthrough: true }) response: Response
-  ): Promise<Auth> {
-    return this.authService.signUp(authCredentialsDto, response);
+  signUp(@Body() authCredentialsDto: AuthCredentialsDto) {
+    return this.authService.signUp(authCredentialsDto);
   }
 
   @Post("/login")
-  login(
-    @Body() authCredentialsDto: AuthCredentialsDto,
-    @Res({ passthrough: true }) response: Response
-  ): Promise<Auth> {
-    return this.authService.login(authCredentialsDto, response);
+  signIp(@Body() authCredentialsDto: AuthCredentialsDto) {
+    return this.authService.signIn(authCredentialsDto);
   }
 
-  @Get("/test")
-  @UseGuards(new AuthGuard())
-  test() {
-    return "Auth is working";
+  @Post("/test")
+  @UseGuards(AuthGuard())
+  test(@Req() request) {
+    console.log(request);
   }
 }
