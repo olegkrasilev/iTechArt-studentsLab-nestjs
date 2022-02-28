@@ -80,4 +80,24 @@ export class PostsRepository extends Repository<Posts> {
 
     await Posts.delete(postID);
   }
+
+  async updatePost(body: { postID: number; post: string; title: string }) {
+    const { postID, post, title } = body;
+
+    const existingPost = await Posts.findOne(postID);
+
+    if (!existingPost) {
+      throw new ConflictException("This Post does not exist");
+    }
+
+    await Posts.merge(existingPost, { post, title }).save();
+
+    return {
+      data: {
+        post,
+        title,
+        postID,
+      },
+    };
+  }
 }

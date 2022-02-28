@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   Param,
+  Patch,
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
@@ -26,10 +27,16 @@ export class PostsController {
     return this.postsService.getUserPosts(params);
   }
 
-  @Delete("deletePost")
+  @Delete("/deletePost")
   @HttpCode(204)
   @UseGuards(AuthGuard())
   deletePost(@Body() postID: number) {
     return this.postsService.deletePost(postID);
+  }
+
+  @Patch("/updatePost")
+  @UseGuards(AuthGuard())
+  updatePost(@Body() body: { postID: number; post: string; title: string }) {
+    return this.postsService.updatePost(body);
   }
 }

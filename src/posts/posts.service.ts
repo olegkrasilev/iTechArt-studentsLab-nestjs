@@ -16,4 +16,8 @@ export class PostsService {
   deletePost(postID: number) {
     return this.postsRepository.deletePost(postID);
   }
+
+  async updatePost(body: { postID: number; post: string; title: string }) {
+    return this.postsRepository.updatePost(body);
+  }
 }
