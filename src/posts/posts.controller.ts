@@ -11,4 +11,10 @@ export class PostsController {
   getAllPosts(@Param() page: string) {
     return this.postsService.getAllPosts(page);
   }
+
+  @Get("/getUserPosts/:id/:page")
+  @UseGuards(AuthGuard())
+  getUserPosts(@Param() params: { id: string; page: string }) {
+    return this.postsService.getUserPosts(params);
+  }
 }

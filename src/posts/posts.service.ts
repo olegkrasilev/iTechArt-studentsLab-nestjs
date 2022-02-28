@@ -8,4 +8,8 @@ export class PostsService {
   getAllPosts(page: string) {
     return this.postsRepository.getAllPosts(page);
   }
+
+  getUserPosts(params: { id: string; page: string }) {
+    return this.postsRepository.getUserPosts(params);
+  }
 }
