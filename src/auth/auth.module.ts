@@ -17,8 +17,8 @@ import config from "../config/config";
     TypeOrmModule.forFeature([UserRepository]),
     PassportModule.register({ defaultStrategy: "jwt" }),
     JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: process.env.JWT_ACCESS },
+      secret: process.env.JWT_ACCESS_SECRET,
+      signOptions: { expiresIn: process.env.JWT_ACCESS_EXPIRES_IN },
     }),
   ],
   providers: [AuthService, JwtStrategy],
