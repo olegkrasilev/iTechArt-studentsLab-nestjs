@@ -39,4 +39,10 @@ export class AuthController {
   updateUser(@Body() authCredentialsDto: AuthCredentialsDto) {
     return this.authService.updateUser(authCredentialsDto);
   }
+
+  @Post("logout")
+  @UseGuards(AuthGuard())
+  logout() {
+    return this.authService.logout();
+  }
 }

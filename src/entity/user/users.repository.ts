@@ -82,4 +82,14 @@ export class UserRepository extends Repository<User> {
       firstName,
     };
   }
+
+  logout() {
+    // TODO add logic later
+    // response.clearCookie('jwtAccessToken');
+    // response.clearCookie('jwtRefreshToken');
+
+    return {
+      status: "success",
+    };
+  }
 }

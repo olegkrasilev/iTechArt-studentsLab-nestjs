@@ -40,7 +40,11 @@ export class AuthService {
     return this.usersRepository.getAllUsers(page);
   }
 
-  async updateUser(authCredentialsDto: AuthCredentialsDto) {
+  updateUser(authCredentialsDto: AuthCredentialsDto) {
     return this.usersRepository.updateUser(authCredentialsDto);
+  }
+
+  logout() {
+    return this.usersRepository.logout();
   }
 }
