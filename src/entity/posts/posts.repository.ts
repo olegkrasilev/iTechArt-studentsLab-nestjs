@@ -1,3 +1,4 @@
+import { User } from "./../user/";
 import { Posts } from ".";
 import { EntityRepository, Repository } from "typeorm";
 import { ConflictException } from "@nestjs/common";
@@ -125,6 +126,26 @@ export class PostsRepository extends Repository<Posts> {
       firstName,
       lastName,
       email,
+    };
+  }
+
+  async createPost(body: { userID: number; post: string; title: string }) {
+    const { userID, post, title } = body;
+
+    const user = await User.findOne(userID);
+
+    await Posts.create({
+      user,
+      post,
+      title,
+    }).save();
+
+    return {
+      data: {
+        userID,
+        title,
+        post,
+      },
     };
   }
 }

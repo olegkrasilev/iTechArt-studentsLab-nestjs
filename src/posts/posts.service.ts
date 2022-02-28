@@ -24,4 +24,8 @@ export class PostsService {
   getUserPost(params: { id: number }) {
     return this.postsRepository.getUserPost(params);
   }
+
+  createPost(body: { userID: number; post: string; title: string }) {
+    return this.postsRepository.createPost(body);
+  }
 }

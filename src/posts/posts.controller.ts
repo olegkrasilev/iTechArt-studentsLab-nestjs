@@ -6,6 +6,7 @@ import {
   HttpCode,
   Param,
   Patch,
+  Post,
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
@@ -44,5 +45,11 @@ export class PostsController {
   @UseGuards(AuthGuard())
   getUserPost(@Param() params: { id: number }) {
     return this.postsService.getUserPost(params);
+  }
+
+  @Post("/createPost")
+  @UseGuards(AuthGuard())
+  createPost(@Body() body: { userID: number; post: string; title: string }) {
+    return this.postsService.createPost(body);
   }
 }
