@@ -70,4 +70,14 @@ export class PostsRepository extends Repository<Posts> {
       posts: selectPostFields,
     };
   }
+
+  async deletePost(postID: number) {
+    const existingPost = await Posts.findOne(postID);
+
+    if (!existingPost) {
+      throw new ConflictException("This Post does not exist");
+    }
+
+    await Posts.delete(postID);
+  }
 }

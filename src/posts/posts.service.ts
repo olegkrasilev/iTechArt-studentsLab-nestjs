@@ -12,4 +12,8 @@ export class PostsService {
   getUserPosts(params: { id: string; page: string }) {
     return this.postsRepository.getUserPosts(params);
   }
+
+  deletePost(postID: number) {
+    return this.postsRepository.deletePost(postID);
+  }
 }
