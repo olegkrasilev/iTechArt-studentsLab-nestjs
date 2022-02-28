@@ -29,19 +29,19 @@ export class AuthController {
   }
 
   @Get("/getAllUsers/:page")
-  @UseGuards(AuthGuard())
+  // @UseGuards(AuthGuard())
   getAllUsers(@Param("page") page: string) {
     return this.authService.getAllUsers(page);
   }
 
   @Patch("/updateUser")
-  @UseGuards(AuthGuard())
+  // @UseGuards(AuthGuard())
   updateUser(@Body() authCredentialsDto: AuthCredentialsDto) {
     return this.authService.updateUser(authCredentialsDto);
   }
 
   @Post("logout")
-  @UseGuards(AuthGuard())
+  // @UseGuards(AuthGuard())
   logout() {
     return this.authService.logout();
   }

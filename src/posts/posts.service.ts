@@ -5,8 +5,8 @@ import { Injectable } from "@nestjs/common";
 export class PostsService {
   constructor(private postsRepository: PostsRepository) {}
 
-  getAllPosts(page: string) {
-    return this.postsRepository.getAllPosts(page);
+  getAllPosts(params: { page: string }) {
+    return this.postsRepository.getAllPosts(params);
   }
 
   getUserPosts(params: { id: string; page: string }) {

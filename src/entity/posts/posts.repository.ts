@@ -5,7 +5,8 @@ import { ConflictException } from "@nestjs/common";
 
 @EntityRepository(Posts)
 export class PostsRepository extends Repository<Posts> {
-  async getAllPosts(page: string) {
+  async getAllPosts(params: { page: string }) {
+    const { page } = params;
     const POST_TO_TAKE = 5;
     const REQUESTED_PAGE = Number(page);
     const POST_TO_SKIP = (REQUESTED_PAGE - 1) * POST_TO_TAKE;
