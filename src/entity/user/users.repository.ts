@@ -56,4 +56,30 @@ export class UserRepository extends Repository<User> {
       users,
     };
   }
+
+  async updateUser(authCredentialsDto: AuthCredentialsDto) {
+    const { userID, email, lastName, firstName } = authCredentialsDto;
+
+    const user = await User.findOne(userID);
+
+    if (!user) {
+      throw new ConflictException("This user does not exist.");
+    }
+
+    try {
+      await User.merge(user, { email, lastName, firstName }).save();
+    } catch (error) {
+      if (error.code === "23505") {
+        throw new ConflictException("This email already exists");
+      }
+      throw new InternalServerErrorException();
+    }
+
+    return {
+      status: "success",
+      email,
+      lastName,
+      firstName,
+    };
+  }
 }

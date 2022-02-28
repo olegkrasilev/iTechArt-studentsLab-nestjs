@@ -36,7 +36,11 @@ export class AuthService {
     throw new UnauthorizedException("PLease check your login credentials");
   }
 
-  async getAllUsers(page: string) {
+  getAllUsers(page: string) {
     return this.usersRepository.getAllUsers(page);
+  }
+
+  async updateUser(authCredentialsDto: AuthCredentialsDto) {
+    return this.usersRepository.updateUser(authCredentialsDto);
   }
 }

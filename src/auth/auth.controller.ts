@@ -5,6 +5,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Req,
   Res,
@@ -31,5 +32,11 @@ export class AuthController {
   @UseGuards(AuthGuard())
   getAllUsers(@Param("page") page: string) {
     return this.authService.getAllUsers(page);
+  }
+
+  @Patch("/updateUser")
+  @UseGuards(AuthGuard())
+  updateUser(@Body() authCredentialsDto: AuthCredentialsDto) {
+    return this.authService.updateUser(authCredentialsDto);
   }
 }
