@@ -1,17 +1,6 @@
 import { AuthService } from "./auth.service";
 import { AuthCredentialsDto } from "./dto/auth-credentials.dto";
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Req,
-  Res,
-  UseGuards,
-} from "@nestjs/common";
-import { Request, Response } from "express";
+import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
 import { Auth } from "../entity/user";
 import { AuthGuard } from "@nestjs/passport";
 
