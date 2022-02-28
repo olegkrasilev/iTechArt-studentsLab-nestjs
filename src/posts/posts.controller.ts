@@ -39,4 +39,10 @@ export class PostsController {
   updatePost(@Body() body: { postID: number; post: string; title: string }) {
     return this.postsService.updatePost(body);
   }
+
+  @Get("/getUserPost/:id")
+  @UseGuards(AuthGuard())
+  getUserPost(@Param() params: { id: number }) {
+    return this.postsService.getUserPost(params);
+  }
 }

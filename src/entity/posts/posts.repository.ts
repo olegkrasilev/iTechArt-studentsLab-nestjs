@@ -100,4 +100,31 @@ export class PostsRepository extends Repository<Posts> {
       },
     };
   }
+
+  async getUserPost(params: { id: number }) {
+    const { id } = params;
+    const postOfUser = await Posts.findOne({
+      select: ["post", "title", "id", "postCreationTime"],
+      relations: ["user"],
+      where: {
+        id,
+      },
+    });
+
+    if (!postOfUser) {
+      throw new ConflictException("This Post does not exist");
+    }
+
+    const { post, title, postCreationTime, user } = postOfUser;
+    const { firstName, lastName, email } = user;
+
+    return {
+      post,
+      title,
+      postCreationTime,
+      firstName,
+      lastName,
+      email,
+    };
+  }
 }

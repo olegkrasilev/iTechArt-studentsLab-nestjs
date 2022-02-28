@@ -17,7 +17,11 @@ export class PostsService {
     return this.postsRepository.deletePost(postID);
   }
 
-  async updatePost(body: { postID: number; post: string; title: string }) {
+  updatePost(body: { postID: number; post: string; title: string }) {
     return this.postsRepository.updatePost(body);
+  }
+
+  getUserPost(params: { id: number }) {
+    return this.postsRepository.getUserPost(params);
   }
 }
