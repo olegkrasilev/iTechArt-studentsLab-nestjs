@@ -9,7 +9,7 @@ import { AuthCredentialsDto } from "../../auth/dto/auth-credentials.dto";
 import { User } from ".";
 import { EntityRepository, Repository } from "typeorm";
 import * as bcrypt from "bcrypt";
-import { Response } from "express";
+import { Request, Response } from "express";
 
 export interface Auth {
   status: string;
@@ -37,5 +37,23 @@ export class UserRepository extends Repository<User> {
       }
       throw new InternalServerErrorException();
     }
+  }
+
+  async getAllUsers(page: string) {
+    const POST_TO_TAKE = 5;
+    const REQUESTED_PAGE = Number(page);
+    const POST_TO_SKIP = (REQUESTED_PAGE - 1) * POST_TO_TAKE;
+
+    const [users, total] = await User.findAndCount({
+      select: ["id", "email", "firstName", "lastName"],
+      take: POST_TO_TAKE,
+      skip: POST_TO_SKIP,
+    });
+
+    return {
+      status: "Success",
+      total,
+      users,
+    };
   }
 }

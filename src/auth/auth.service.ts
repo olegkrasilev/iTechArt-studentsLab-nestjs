@@ -1,7 +1,7 @@
 import { AuthCredentialsDto } from "./dto/auth-credentials.dto";
 import { Injectable, Res, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Response } from "express";
+import { Request, Response } from "express";
 import { Auth, UserRepository } from "../entity/user";
 import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from "bcrypt";
@@ -34,5 +34,9 @@ export class AuthService {
       };
     }
     throw new UnauthorizedException("PLease check your login credentials");
+  }
+
+  async getAllUsers(page: string) {
+    return this.usersRepository.getAllUsers(page);
   }
 }

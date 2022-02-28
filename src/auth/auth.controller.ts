@@ -1,7 +1,16 @@
 import { AuthService } from "./auth.service";
 import { AuthCredentialsDto } from "./dto/auth-credentials.dto";
-import { Body, Controller, Post, Req, Res, UseGuards } from "@nestjs/common";
-import { Response } from "express";
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from "@nestjs/common";
+import { Request, Response } from "express";
 import { Auth } from "../entity/user";
 import { AuthGuard } from "@nestjs/passport";
 
@@ -18,9 +27,9 @@ export class AuthController {
     return this.authService.signIn(authCredentialsDto);
   }
 
-  @Post("/test")
+  @Get("/getAllUsers/:page")
   @UseGuards(AuthGuard())
-  test(@Req() request) {
-    console.log(request);
+  getAllUsers(@Param("page") page: string) {
+    return this.authService.getAllUsers(page);
   }
 }
