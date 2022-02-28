@@ -13,8 +13,8 @@ export class PostsService {
     return this.postsRepository.getUserPosts(params);
   }
 
-  deletePost(postID: number) {
-    return this.postsRepository.deletePost(postID);
+  deletePost(body: { postID: number }) {
+    return this.postsRepository.deletePost(body);
   }
 
   updatePost(body: { postID: number; post: string; title: string }) {

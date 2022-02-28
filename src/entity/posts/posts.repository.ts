@@ -73,7 +73,8 @@ export class PostsRepository extends Repository<Posts> {
     };
   }
 
-  async deletePost(postID: number) {
+  async deletePost(body: { postID: number }) {
+    const { postID } = body;
     const existingPost = await Posts.findOne(postID);
 
     if (!existingPost) {

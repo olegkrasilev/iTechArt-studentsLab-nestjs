@@ -31,8 +31,8 @@ export class PostsController {
   @Delete("/deletePost")
   @HttpCode(204)
   // @UseGuards(AuthGuard())
-  deletePost(@Body() postID: number) {
-    return this.postsService.deletePost(postID);
+  deletePost(@Body() body: { postID: number }) {
+    return this.postsService.deletePost(body);
   }
 
   @Patch("/updatePost")
