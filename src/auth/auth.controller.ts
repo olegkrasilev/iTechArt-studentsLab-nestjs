@@ -24,7 +24,7 @@ export class AuthController {
   }
 
   @Post("/login")
-  signIp(@Body() authCredentialsDto: AuthCredentialsDto) {
+  signIn(@Body() authCredentialsDto: AuthCredentialsDto) {
     return this.authService.signIn(authCredentialsDto);
   }
 

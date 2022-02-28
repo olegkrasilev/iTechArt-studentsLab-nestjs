@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 
 // import { Comments } from "./Comment";
-// import { Posts } from "./Post";
+import { Posts } from "../posts";
 
 @Entity("user")
 export class User extends BaseEntity {
@@ -28,20 +28,11 @@ export class User extends BaseEntity {
   @Column()
   encryptedPassword: string;
 
-  @Column({ nullable: true })
-  passwordChangedAt: Date;
-
-  @Column({ nullable: true })
-  passwordResetToken: string;
-
-  @Column({ nullable: true })
-  passwordResetExpires: Date;
-
-  // @OneToMany(() => Posts, (posts: Posts) => posts.user, {
-  //   onDelete: "CASCADE",
-  //   onUpdate: "CASCADE",
-  // })
-  // posts: Posts[];
+  @OneToMany(() => Posts, (posts: Posts) => posts.user, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  posts: Posts[];
 
   // @OneToMany(() => Comments, (comments: Comments) => comments.user, {
   //   onDelete: "CASCADE",
