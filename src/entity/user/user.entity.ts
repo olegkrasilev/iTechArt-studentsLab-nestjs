@@ -19,14 +19,17 @@ export class User extends BaseEntity {
   })
   email: string;
 
-  @Column({ nullable: true })
+  @Column()
   firstName: string;
 
-  @Column({ nullable: true })
+  @Column()
   lastName: string;
 
   @Column()
   encryptedPassword: string;
+
+  @Column({ nullable: true })
+  refreshToken: string;
 
   @OneToMany(() => Posts, (posts: Posts) => posts.user, {
     onDelete: "CASCADE",

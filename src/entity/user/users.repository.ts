@@ -1,8 +1,8 @@
-import { JwtService } from "@nestjs/jwt";
 import {
   ConflictException,
   InternalServerErrorException,
   NotFoundException,
+  Req,
   Res,
 } from "@nestjs/common";
 import { AuthCredentialsDto } from "../../auth/dto/auth-credentials.dto";
@@ -23,14 +23,32 @@ export interface Auth {
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-  async createUser(authCredentialsDto: AuthCredentialsDto) {
+  async createUser(
+    authCredentialsDto: AuthCredentialsDto,
+    refreshToken: string,
+    accessToken: string
+  ) {
     const { email, password, firstName, lastName } = authCredentialsDto;
     const encryptedPassword = await bcrypt.hash(password, 12);
 
-    const user = this.create({ email, firstName, lastName, encryptedPassword });
+    const user = this.create({
+      email,
+      firstName,
+      lastName,
+      encryptedPassword,
+      refreshToken,
+    });
 
     try {
       await this.save(user);
+      return {
+        id: user.id,
+        firstName,
+        lastName,
+        email,
+        accessToken,
+        refreshToken,
+      };
     } catch (error) {
       if (error.code === "23505") {
         throw new ConflictException("Username already exists");

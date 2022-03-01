@@ -6,8 +6,8 @@ import * as cookieParser from "cookie-parser";
 async function bootstrap() {
   const port = 3000;
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix("api/v1");
   app.use(cookieParser());
+  app.setGlobalPrefix("api/v1");
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -19,4 +19,6 @@ async function bootstrap() {
   );
   await app.listen(port);
 }
-bootstrap();
+bootstrap()
+  .then((r) => r)
+  .catch((e) => e);

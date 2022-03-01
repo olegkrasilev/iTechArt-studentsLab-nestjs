@@ -13,16 +13,59 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  async signUp(authCredentialsDto: AuthCredentialsDto) {
-    return this.usersRepository.createUser(authCredentialsDto);
+  generateRefreshToken(email: string) {
+    return this.jwtService.sign(
+      { email },
+      {
+        expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+        secret: process.env.JWT_REFRESH_SECRET,
+      }
+    );
+  }
+
+  generateAccessToken(email: string) {
+    return this.jwtService.sign(
+      { email },
+      {
+        expiresIn: process.env.JWT_ACCESS_EXPIRES_IN,
+        secret: process.env.JWT_ACCESS_SECRET,
+      }
+    );
+  }
+
+  async signUp(
+    authCredentialsDto: AuthCredentialsDto,
+    _refreshToken: string,
+    _accessToken: string
+  ) {
+    const { email } = authCredentialsDto;
+    const refreshToken = this.generateRefreshToken(email);
+    const accessToken = this.generateAccessToken(email);
+    return this.usersRepository.createUser(
+      authCredentialsDto,
+      refreshToken,
+      accessToken
+    );
   }
 
   async signIn(authCredentialsDto: AuthCredentialsDto) {
     const { email, password } = authCredentialsDto;
     const user = await this.usersRepository.findOne({ email });
     if (user && (await bcrypt.compare(password, user.encryptedPassword))) {
-      const payload = { email };
-      const accessToken = this.jwtService.sign(payload);
+      const accessToken = this.jwtService.sign(
+        { email },
+        {
+          expiresIn: process.env.JWT_ACCESS_EXPIRES_IN,
+          secret: process.env.JWT_ACCESS_SECRET,
+        }
+      );
+      const refreshToken = this.jwtService.sign(
+        { email },
+        {
+          expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+          secret: process.env.JWT_REFRESH_SECRET,
+        }
+      );
       const { firstName, lastName, id } = user;
       return {
         firstName,
@@ -30,6 +73,7 @@ export class AuthService {
         email,
         id,
         accessToken,
+        refreshToken,
       };
     }
     throw new UnauthorizedException("PLease check your login credentials");
@@ -45,5 +89,11 @@ export class AuthService {
 
   logout() {
     return this.usersRepository.logout();
+  }
+
+  refreshToken(authCredentialsDto: AuthCredentialsDto) {
+    const { email } = authCredentialsDto;
+    const accessToken = this.generateAccessToken(email);
+    return { accessToken };
   }
 }
