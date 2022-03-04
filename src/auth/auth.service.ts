@@ -4,6 +4,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { UserRepository } from "../entity/user";
 import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from "bcrypt";
+import { Response } from "express";
 
 @Injectable()
 export class AuthService {
@@ -87,8 +88,8 @@ export class AuthService {
     return this.usersRepository.updateUser(authCredentialsDto);
   }
 
-  logout() {
-    return this.usersRepository.logout();
+  logout(response: Response) {
+    return this.usersRepository.logout(response);
   }
 
   refreshToken(authCredentialsDto: AuthCredentialsDto) {

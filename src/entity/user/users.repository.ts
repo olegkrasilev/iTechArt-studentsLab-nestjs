@@ -101,10 +101,9 @@ export class UserRepository extends Repository<User> {
     };
   }
 
-  logout() {
-    // TODO add logic later
-    // response.clearCookie('jwtAccessToken');
-    // response.clearCookie('jwtRefreshToken');
+  logout(response: Response) {
+    response.clearCookie("jwtAccessToken");
+    response.clearCookie("jwtRefreshToken");
 
     return {
       status: "success",

@@ -4,12 +4,15 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   Param,
   Patch,
   Post,
+  Res,
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { Response } from "express";
 
 @Controller("users")
 export class AuthController {
@@ -44,10 +47,10 @@ export class AuthController {
     return this.authService.updateUser(authCredentialsDto);
   }
 
-  @Post("logout")
+  @Post("/logout")
   @UseGuards(AuthGuard("JWT-access-token"))
-  logout() {
-    return this.authService.logout();
+  logout(@Res({ passthrough: true }) response: Response) {
+    return this.authService.logout(response);
   }
 
   @Post("/refresh")
